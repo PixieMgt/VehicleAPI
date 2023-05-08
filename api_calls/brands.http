@@ -1,0 +1,29 @@
+@url = http://localhost:3000/api/brands
+
+get {{url}}
+
+###
+
+post {{url}}
+Content-Type: application/json
+
+{
+    "name": "Mercedes",
+    "country": "Germany",
+    "founded": 1926
+}
+
+###
+
+put {{url}}/645916aad73a2fe7b3e0e763
+Content-Type: application/json
+
+{
+    "name": "BMW",
+    "country": "Germany",
+    "founded": 1916
+}
+
+###
+
+delete {{url}}/64591709d73a2fe7b3e0e76a

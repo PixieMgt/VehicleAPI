@@ -1,9 +1,11 @@
 const Joi = require('joi');
 Joi.objectId = require('joi-objectid')(Joi);
 const mongoose = require('mongoose');
-const vehicles = require('./routes/vehicles');
 const express = require('express');
 const CONFIG = require('./config.json');
+
+const vehicles = require('./routes/vehicles');
+const brands = require('./routes/brands');
 
 const app = express();
 const dbUser = CONFIG.dbUser;
@@ -16,6 +18,7 @@ mongoose.connect(uri)
 
 app.use(express.json());
 app.use('/api/vehicles', vehicles);
+app.use('/api/brands', brands);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Listening on port ${port}...`));
