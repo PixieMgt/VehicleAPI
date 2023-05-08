@@ -1,0 +1,31 @@
+@url = http://localhost:3000/api/vehicles
+
+get {{url}}
+
+###
+
+post {{url}}
+Content-Type: application/json
+
+{
+    "brand": "BMW",
+    "model": "X5",
+    "year": 2019,
+    "price": 100000
+}
+
+###
+
+put {{url}}/6459134f4e561ccbe393e179
+Content-Type: application/json
+
+{
+    "brand": "BMW",
+    "model": "X5",
+    "year": 2019,
+    "price": 120000
+}
+
+###
+
+delete {{url}}/645912d37eb34101661f22cc
