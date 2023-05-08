@@ -5,7 +5,8 @@ const currentYear = new Date().getFullYear();
 
 const Vehicle = mongoose.model('Vehicle', new mongoose.Schema({
     brand: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Brand',
         required: true,
         minlength: 0,
         maxlength: 50

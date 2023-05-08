@@ -4,14 +4,18 @@ get {{url}}
 
 ###
 
+get {{url}}/64591c8a8051b97b6f3c9382
+
+###
+
 post {{url}}
 Content-Type: application/json
 
 {
-    "brand": "BMW",
-    "model": "X5",
+    "brand": "64591714d73a2fe7b3e0e76c",
+    "model": "C200",
     "year": 2019,
-    "price": 100000
+    "price": 120000
 }
 
 ###
@@ -28,4 +32,4 @@ Content-Type: application/json
 
 ###
 
-delete {{url}}/645913b54e561ccbe393e180
+delete {{url}}/645912e67eb34101661f22ce
