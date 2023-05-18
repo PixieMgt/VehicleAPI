@@ -7,9 +7,7 @@ const Vehicle = mongoose.model('Vehicle', new mongoose.Schema({
     brand: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Brand',
-        required: true,
-        minlength: 0,
-        maxlength: 50
+        required: true
     },
     model: {
         type: String,

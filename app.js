@@ -6,6 +6,7 @@ const CONFIG = require('./config.json');
 
 const vehicles = require('./routes/vehicles');
 const brands = require('./routes/brands');
+const garages = require('./routes/garages');
 
 const app = express();
 const dbUser = CONFIG.dbUser;
@@ -19,6 +20,7 @@ mongoose.connect(uri)
 app.use(express.json());
 app.use('/api/vehicles', vehicles);
 app.use('/api/brands', brands);
+app.use('/api/garages', garages);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Listening on port ${port}...`));

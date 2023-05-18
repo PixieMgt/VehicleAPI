@@ -1,0 +1,49 @@
+@url = http://localhost:3000/api/garages
+
+get {{url}}
+
+###
+
+get {{url}}/6465ef19b64064bfc4c867ca
+
+###
+
+post {{url}}
+Content-Type: application/json
+
+{
+    "name": "My Garage",
+    "city": "Kortrijk",
+    "vehicles": [
+        "64591c8a8051b97b6f3c9382",
+        "64591ce98051b97b6f3c938d"
+    ]
+}
+
+###
+
+put {{url}}/6465ef19b64064bfc4c867ca
+Content-Type: application/json
+
+{
+    "name": "My Garage",
+    "city": "Kortrijk",
+    "vehicles": [
+        {
+            "brand": "BMW",
+            "model": "X5",
+            "year": 2019,
+            "price": 120000
+        },
+        {
+            "brand": "Audi",
+            "model": "A4",
+            "year": 2018,
+            "price": 80000
+        }
+    ]
+}
+
+###
+
+delete {{url}}/6465ef19b64064bfc4c867ca
