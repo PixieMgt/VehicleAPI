@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Vehicle = require('../models/vehicle');
+const auth = require('../middleware/authorise');
 
 // Get all vehicles
 router.get('/', async (req, res) => {
@@ -18,7 +19,7 @@ router.get('/:id', getVehicle, (req, res) => {
 });
 
 // Create one vehicle
-router.post('/', async (req, res) => {
+router.post('/', auth, async (req, res) => {
     const vehicle = new Vehicle({
         brand: req.body.make,
         model: req.body.model,
@@ -35,7 +36,7 @@ router.post('/', async (req, res) => {
 });
 
 // Update one vehicle
-router.patch('/:id', getVehicle, async (req, res) => {
+router.patch('/:id', auth, getVehicle, async (req, res) => {
     if (req.body.brand != null) {
         res.vehicle.brand = req.body.brand;
     }
@@ -58,7 +59,7 @@ router.patch('/:id', getVehicle, async (req, res) => {
 });
 
 // Delete one vehicle
-router.delete('/:id', getVehicle, async (req, res) => {
+router.delete('/:id', auth, getVehicle, async (req, res) => {
     try {
         await res.vehicle.deleteOne();
         res.json({ message: 'Deleted Vehicle' });

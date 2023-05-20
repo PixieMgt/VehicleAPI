@@ -38,7 +38,7 @@ const customerSchema = new mongoose.Schema({
 })
 
 customerSchema.methods.generateAuthToken = function () {
-    return jwt.sign({ _id: this._id }, 'jwtPrivateKey');
+    return jwt.sign({ _id: this._id }, config.get('jwtPrivateKey'));
 }
 
 const Customer = mongoose.model('Customer', customerSchema);

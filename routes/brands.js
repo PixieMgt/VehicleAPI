@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Brand = require('../models/brand');
+const auth = require('../middleware/authorise');
 
 // GET all brands
 router.get('/', async (req, res) => {
@@ -18,7 +19,7 @@ router.get('/:id', getBrand, (req, res) => {
 });
 
 // CREATE a new brand
-router.post('/', async (req, res) => {
+router.post('/', auth, async (req, res) => {
     const brand = new Brand({
         name: req.body.name,
         country: req.body.country,
@@ -34,7 +35,7 @@ router.post('/', async (req, res) => {
 });
 
 // UPDATE a brand by id
-router.patch('/:id', getBrand, async (req, res) => {
+router.patch('/:id', auth, getBrand, async (req, res) => {
     if (req.body.name != null) {
         res.brand.name = req.body.name;
     }
@@ -54,7 +55,7 @@ router.patch('/:id', getBrand, async (req, res) => {
 });
 
 // DELETE a brand by id
-router.delete('/:id', getBrand, async (req, res) => {
+router.delete('/:id', auth, getBrand, async (req, res) => {
     try {
         await res.brand.deleteOne();
         res.json({ message: 'Brand deleted' });

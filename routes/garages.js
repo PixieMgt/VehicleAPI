@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Garage = require('../models/garage');
+const auth = require('../middleware/authorise');
 
 // GET all garages
 router.get('/', async (req, res) => {
@@ -18,7 +19,7 @@ router.get('/:id', getGarage, (req, res) => {
 });
 
 // CREATE a new garage
-router.post('/', async (req, res) => {
+router.post('/', auth, async (req, res) => {
     const garage = new Garage({
         name: req.body.name,
         city: req.body.city,
@@ -34,7 +35,7 @@ router.post('/', async (req, res) => {
 });
 
 // UPDATE a garage
-router.patch('/:id', getGarage, async (req, res) => {
+router.patch('/:id', auth, getGarage, async (req, res) => {
     if (req.body.name != null) {
         res.garage.name = req.body.name;
     }
@@ -54,7 +55,7 @@ router.patch('/:id', getGarage, async (req, res) => {
 });
 
 // DELETE a garage
-router.delete('/:id', getGarage, async (req, res) => {
+router.delete('/:id', auth, getGarage, async (req, res) => {
     try {
         await res.garage.deleteOne();
         res.json({ message: 'Garage deleted' });

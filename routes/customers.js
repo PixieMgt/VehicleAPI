@@ -3,8 +3,7 @@ const router = express.Router();
 const Customer = require('../models/customer');
 const _ = require('lodash');
 const bcrypt = require('bcrypt');
-const config = require('config');
-const jwt = require('jsonwebtoken');
+const auth = require('../middleware/authorise');
 
 // GET all customers
 router.get('/', async (req, res) => {
@@ -46,7 +45,7 @@ router.post('/', async (req, res) => {
 });
 
 // UPDATE a customer
-router.patch('/:id', getCustomer, async (req, res) => {
+router.patch('/:id', auth, getCustomer, async (req, res) => {
     if (req.body.name != null) {
         res.customer.name = req.body.name;
     }
@@ -75,7 +74,7 @@ router.patch('/:id', getCustomer, async (req, res) => {
 });
 
 // DELETE a customer
-router.delete('/:id', getCustomer, async (req, res) => {
+router.delete('/:id', auth, getCustomer, async (req, res) => {
     try {
         await res.customer.deleteOne();
         res.json({ message: 'Customer deleted' });
