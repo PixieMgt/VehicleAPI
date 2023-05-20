@@ -21,8 +21,8 @@ router.get('/:id', getGarage, (req, res) => {
 router.post('/', async (req, res) => {
     const garage = new Garage({
         name: req.body.name,
-        location: req.body.location,
-        capacity: req.body.capacity
+        city: req.body.city,
+        vehicles: req.body.vehicles
     });
 
     try {
@@ -38,11 +38,11 @@ router.patch('/:id', getGarage, async (req, res) => {
     if (req.body.name != null) {
         res.garage.name = req.body.name;
     }
-    if (req.body.location != null) {
-        res.garage.location = req.body.location;
+    if (req.body.city != null) {
+        res.garage.city = req.body.city;
     }
-    if (req.body.capacity != null) {
-        res.garage.capacity = req.body.capacity;
+    if (req.body.vehicles != null) {
+        res.garage.vehicles = req.body.vehicles;
     }
 
     try {
@@ -56,7 +56,7 @@ router.patch('/:id', getGarage, async (req, res) => {
 // DELETE a garage
 router.delete('/:id', getGarage, async (req, res) => {
     try {
-        await res.garage.remove();
+        await res.garage.deleteOne();
         res.json({ message: 'Garage deleted' });
     } catch (err) {
         res.status(500).json({ message: err.message });

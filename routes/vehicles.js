@@ -20,10 +20,9 @@ router.get('/:id', getVehicle, (req, res) => {
 // Create one vehicle
 router.post('/', async (req, res) => {
     const vehicle = new Vehicle({
-        make: req.body.make,
+        brand: req.body.make,
         model: req.body.model,
         year: req.body.year,
-        color: req.body.color,
         price: req.body.price
     });
 
@@ -37,8 +36,8 @@ router.post('/', async (req, res) => {
 
 // Update one vehicle
 router.patch('/:id', getVehicle, async (req, res) => {
-    if (req.body.make != null) {
-        res.vehicle.make = req.body.make;
+    if (req.body.brand != null) {
+        res.vehicle.brand = req.body.brand;
     }
     if (req.body.model != null) {
         res.vehicle.model = req.body.model;
@@ -46,12 +45,10 @@ router.patch('/:id', getVehicle, async (req, res) => {
     if (req.body.year != null) {
         res.vehicle.year = req.body.year;
     }
-    if (req.body.color != null) {
-        res.vehicle.color = req.body.color;
-    }
     if (req.body.price != null) {
         res.vehicle.price = req.body.price;
     }
+
     try {
         const updatedVehicle = await res.vehicle.save();
         res.json(updatedVehicle);
@@ -63,7 +60,7 @@ router.patch('/:id', getVehicle, async (req, res) => {
 // Delete one vehicle
 router.delete('/:id', getVehicle, async (req, res) => {
     try {
-        await res.vehicle.remove();
+        await res.vehicle.deleteOne();
         res.json({ message: 'Deleted Vehicle' });
     } catch (err) {
         res.status(500).json({ message: err.message });

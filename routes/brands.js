@@ -21,7 +21,9 @@ router.get('/:id', getBrand, (req, res) => {
 // CREATE a new brand
 router.post('/', async (req, res) => {
     const brand = new Brand({
-        name: req.body.name
+        name: req.body.name,
+        country: req.body.country,
+        founded: req.body.founded
     });
 
     try {
@@ -37,6 +39,12 @@ router.patch('/:id', getBrand, async (req, res) => {
     if (req.body.name != null) {
         res.brand.name = req.body.name;
     }
+    if (req.body.country != null) {
+        res.brand.country = req.body.country;
+    }
+    if (req.body.founded != null) {
+        res.brand.founded = req.body.founded;
+    }
 
     try {
         const updatedBrand = await res.brand.save();
@@ -49,7 +57,7 @@ router.patch('/:id', getBrand, async (req, res) => {
 // DELETE a brand by id
 router.delete('/:id', getBrand, async (req, res) => {
     try {
-        await res.brand.remove();
+        await res.brand.deleteOne();
         res.json({ message: 'Brand deleted' });
     } catch (err) {
         res.status(500).json({ message: err.message });

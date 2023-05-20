@@ -12,13 +12,11 @@ const Brand = mongoose.model('Brand', new mongoose.Schema({
     },
     country: {
         type: String,
-        required: true,
         minlength: 0,
         maxlength: 50
     },
     founded: {
         type: Number,
-        required: true,
         min: 1886,
         max: currentYear
     }
@@ -34,7 +32,5 @@ function validateBrand(request) {
     return schema.validate(request);
 }
 
-module.exports = {
-    Brand: Brand,
-    validate: validateBrand
-};
+module.exports = Brand;
+module.exports.validate = validateBrand;

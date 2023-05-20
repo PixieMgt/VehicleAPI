@@ -1,10 +1,11 @@
 @url = http://localhost:3000/api/garages
+@id = 6465ef19b64064bfc4c867ca
 
 get {{url}}
 
 ###
 
-get {{url}}/6465ef19b64064bfc4c867ca
+get {{url}}/{{id}}
 
 ###
 
@@ -13,7 +14,7 @@ Content-Type: application/json
 
 {
     "name": "My Garage",
-    "city": "Kortrijk",
+    "city": "Los Angeles",
     "vehicles": [
         "64591c8a8051b97b6f3c9382",
         "64591ce98051b97b6f3c938d"
@@ -22,7 +23,7 @@ Content-Type: application/json
 
 ###
 
-put {{url}}/6465ef19b64064bfc4c867ca
+patch {{url}}/{{id}}
 Content-Type: application/json
 
 {
@@ -46,4 +47,4 @@ Content-Type: application/json
 
 ###
 
-delete {{url}}/6465ef19b64064bfc4c867ca
+delete {{url}}/{{id}}

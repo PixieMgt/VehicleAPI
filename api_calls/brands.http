@@ -1,6 +1,11 @@
 @url = http://localhost:3000/api/brands
+@id = 645916aad73a2fe7b3e0e763
 
 get {{url}}
+
+###
+
+get {{url}}/{{id}}
 
 ###
 
@@ -8,22 +13,21 @@ post {{url}}
 Content-Type: application/json
 
 {
-    "name": "Mercedes",
+    "name": "BMW",
     "country": "Germany",
-    "founded": 1926
+    "founded": 1918
 }
 
 ###
 
-put {{url}}/645916aad73a2fe7b3e0e763
+patch {{url}}/{{id}}
 Content-Type: application/json
 
 {
     "name": "BMW",
     "country": "Germany",
-    "founded": 1916
+    "founded": "1916"
 }
-
 ###
 
-delete {{url}}/64591709d73a2fe7b3e0e76a
+delete {{url}}/{{id}}

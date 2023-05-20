@@ -22,7 +22,9 @@ router.post('/', async (req, res) => {
     const customer = new Customer({
         name: req.body.name,
         email: req.body.email,
-        phone: req.body.phone
+        phone: req.body.phone,
+        address: req.body.address,
+        vehicles: req.body.vehicles
     });
 
     try {
@@ -38,13 +40,17 @@ router.patch('/:id', getCustomer, async (req, res) => {
     if (req.body.name != null) {
         res.customer.name = req.body.name;
     }
-
     if (req.body.email != null) {
         res.customer.email = req.body.email;
     }
-
     if (req.body.phone != null) {
         res.customer.phone = req.body.phone;
+    }
+    if (req.body.address != null) {
+        res.customer.address = req.body.address;
+    }
+    if (req.body.vehicles != null) {
+        res.customer.vehicles = req.body.vehicles;
     }
 
     try {
@@ -58,7 +64,7 @@ router.patch('/:id', getCustomer, async (req, res) => {
 // DELETE a customer
 router.delete('/:id', getCustomer, async (req, res) => {
     try {
-        await res.customer.remove();
+        await res.customer.deleteOne();
         res.json({ message: 'Customer deleted' });
     } catch (err) {
         res.status(500).json({ message: err.message });

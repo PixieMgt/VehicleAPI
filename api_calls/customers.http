@@ -1,0 +1,36 @@
+@url = http://localhost:3000/api/customers
+@id = 6468a0e991c519fc7189189a
+
+get {{url}}
+
+###
+
+get {{url}}/{{id}}
+
+###
+
+post {{url}}
+Content-Type: application/json
+
+{
+    "name": "John Doe",
+    "email": "johndoe@example.comm",
+    "phone": "555-555-5555",
+    "address": "123 Main St, Los Angeles, CA 12345"
+}
+
+###
+
+patch {{url}}/{{id}}
+Content-Type: application/json
+
+{
+    "name": "John Doe",
+    "email": "johndoe@example.com",
+    "phone": "555-555-5555",
+    "address": "123 Main St, Los Angeles, CA 12345"
+}
+
+###
+
+delete {{url}}/{{id}}

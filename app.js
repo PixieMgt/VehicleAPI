@@ -2,6 +2,7 @@ const Joi = require('joi');
 Joi.objectId = require('joi-objectid')(Joi);
 const mongoose = require('mongoose');
 const express = require('express');
+const bodyParser = require('body-parser');
 const CONFIG = require('./config.json');
 
 const app = express();
@@ -14,6 +15,9 @@ mongoose.connect(uri)
     .catch(err => console.error('Could not connect to MongoDB...'));
 
 app.use(express.json());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
 app.use('/api/vehicles', require('./routes/vehicles'));
 app.use('/api/brands', require('./routes/brands'));
 app.use('/api/garages', require('./routes/garages'));

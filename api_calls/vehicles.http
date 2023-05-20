@@ -1,10 +1,11 @@
 @url = http://localhost:3000/api/vehicles
+@id = 64591c8a8051b97b6f3c9382
 
 get {{url}}
 
 ###
 
-get {{url}}/64591c8a8051b97b6f3c9382
+get {{url}}/{{id}}
 
 ###
 
@@ -20,7 +21,7 @@ Content-Type: application/json
 
 ###
 
-put {{url}}/6459134f4e561ccbe393e179
+patch {{url}}/{{id}}
 Content-Type: application/json
 
 {
@@ -32,4 +33,4 @@ Content-Type: application/json
 
 ###
 
-delete {{url}}/645912e67eb34101661f22ce
+delete {{url}}/{{id}}

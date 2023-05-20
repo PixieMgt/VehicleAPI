@@ -4,8 +4,7 @@ const Customer = mongoose.model('Customer', new mongoose.Schema({
     name: {
         type: String,
         minlength: 0,
-        maxlength: 50,
-        required: true
+        maxlength: 50
     },
     email: {
         type: String,
@@ -17,14 +16,12 @@ const Customer = mongoose.model('Customer', new mongoose.Schema({
     phone: {
         type: String,
         minlength: 0,
-        maxlength: 50,
-        required: true
+        maxlength: 50
     },
     address: {
         type: String,
         minlength: 0,
-        maxlength: 255,
-        required: true
+        maxlength: 255
     },
     vehicles: [{
         type: mongoose.Schema.Types.ObjectId,
@@ -44,7 +41,5 @@ function validateCustomer(customer) {
     return schema.validate(customer);
 }
 
-module.exports = {
-    Customer,
-    validateCustomer
-};
+module.exports = Customer;
+module.exports.validate = validateCustomer;

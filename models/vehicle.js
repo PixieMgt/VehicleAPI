@@ -17,13 +17,11 @@ const Vehicle = mongoose.model('Vehicle', new mongoose.Schema({
     },
     year: {
         type: Number,
-        required: true,
         min: 1886,
         max: currentYear
     },
     price: {
         type: Number,
-        required: true,
         min: 0,
         max: 1000000
     },
@@ -40,7 +38,5 @@ function validateVehicle(request) {
     return schema.validate(request);
 }
 
-module.exports = {
-    Vehicle: Vehicle,
-    validate: validateVehicle
-};
+module.exports = Vehicle;
+module.exports.validate = validateVehicle;

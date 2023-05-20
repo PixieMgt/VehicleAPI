@@ -10,14 +10,12 @@ const Garage = mongoose.model('Garage', new mongoose.Schema({
     },
     city: {
         type: String,
-        required: true,
         minlength: 0,
         maxlength: 50
     },
     vehicles: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Vehicle',
-        required: true
+        ref: 'Vehicle'
     }]
 }));
 
@@ -31,7 +29,5 @@ function validateGarage(garage) {
     return schema.validate(garage);
 }
 
-module.exports = {
-    Garage: Garage,
-    validate: validateGarage
-};
+module.exports = Garage;
+module.exports.validate = validateGarage;
