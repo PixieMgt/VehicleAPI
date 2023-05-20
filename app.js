@@ -4,10 +4,6 @@ const mongoose = require('mongoose');
 const express = require('express');
 const CONFIG = require('./config.json');
 
-const vehicles = require('./routes/vehicles');
-const brands = require('./routes/brands');
-const garages = require('./routes/garages');
-
 const app = express();
 const dbUser = CONFIG.dbUser;
 const dbPassword = CONFIG.dbPassword;
@@ -18,9 +14,10 @@ mongoose.connect(uri)
     .catch(err => console.error('Could not connect to MongoDB...'));
 
 app.use(express.json());
-app.use('/api/vehicles', vehicles);
-app.use('/api/brands', brands);
-app.use('/api/garages', garages);
+app.use('/api/vehicles', require('./routes/vehicles'));
+app.use('/api/brands', require('./routes/brands'));
+app.use('/api/garages', require('./routes/garages'));
+app.use('/api/customers', require('./routes/customers'));
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Listening on port ${port}...`));

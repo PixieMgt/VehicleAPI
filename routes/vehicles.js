@@ -1,64 +1,88 @@
-const { Vehicle, validate } = require('../models/vehicle');
 const express = require('express');
-
 const router = express.Router();
+const Vehicle = require('../models/vehicle');
 
-// GET all vehicles
+// Get all vehicles
 router.get('/', async (req, res) => {
-    const vehicles = await Vehicle.find().sort('brand').populate('brand', 'name -_id');
-    if (!vehicles) return res.status(404).send('No vehicles found.');
-
-    res.send(vehicles);
+    try {
+        const vehicles = await Vehicle.find();
+        res.json(vehicles);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
 });
 
-// GET a vehicle by id
-router.get('/:id', async (req, res) => {
-    const vehicle = await Vehicle.findById(req.params.id).populate('brand', 'name -_id');
-    if (!vehicle) return res.status(404).send('Vehicle not found.');
-
-    res.send(vehicle);
+// Get one vehicle
+router.get('/:id', getVehicle, (req, res) => {
+    res.json(res.vehicle);
 });
 
-// POST a new vehicle
+// Create one vehicle
 router.post('/', async (req, res) => {
-    const { error } = validate(req.body);
-    if (error) return res.status(404).send(error.details[0].message);
-
-    let vehicle = new Vehicle({
-        brand: req.body.brand,
+    const vehicle = new Vehicle({
+        make: req.body.make,
         model: req.body.model,
         year: req.body.year,
+        color: req.body.color,
         price: req.body.price
     });
 
-    vehicle = await vehicle.save().populate('brand', 'name -_id');
-
-    res.send(vehicle);
+    try {
+        const newVehicle = await vehicle.save();
+        res.status(201).json(newVehicle);
+    } catch (err) {
+        res.status(400).json({ message: err.message });
+    }
 });
 
-// PUT a vehicle by id
-router.put('/:id', async (req, res) => {
-    const { error } = validate(req.body);
-    if (error) return res.status(404).send(error.details[0].message);
-
-    const vehicle = await Vehicle.findByIdAndUpdate(req.params.id, {
-        brand: req.body.brand,
-        model: req.body.model,
-        year: req.body.year,
-        price: req.body.price
-    }, { new: true }).populate('brand', 'name -_id');
-
-    if (!vehicle) return res.status(404).send('Vehicle not found.');
-
-    res.send(vehicle);
+// Update one vehicle
+router.patch('/:id', getVehicle, async (req, res) => {
+    if (req.body.make != null) {
+        res.vehicle.make = req.body.make;
+    }
+    if (req.body.model != null) {
+        res.vehicle.model = req.body.model;
+    }
+    if (req.body.year != null) {
+        res.vehicle.year = req.body.year;
+    }
+    if (req.body.color != null) {
+        res.vehicle.color = req.body.color;
+    }
+    if (req.body.price != null) {
+        res.vehicle.price = req.body.price;
+    }
+    try {
+        const updatedVehicle = await res.vehicle.save();
+        res.json(updatedVehicle);
+    } catch (err) {
+        res.status(400).json({ message: err.message });
+    }
 });
 
-// DELETE a vehicle by id
-router.delete('/:id', async (req, res) => {
-    const vehicle = await Vehicle.findByIdAndRemove(req.params.id).populate('brand', 'name -_id');
-    if (!vehicle) return res.status(404).send('Vehicle not found.');
-
-    res.send(vehicle);
+// Delete one vehicle
+router.delete('/:id', getVehicle, async (req, res) => {
+    try {
+        await res.vehicle.remove();
+        res.json({ message: 'Deleted Vehicle' });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
 });
+
+async function getVehicle(req, res, next) {
+    let vehicle;
+    try {
+        vehicle = await Vehicle.findById(req.params.id);
+        if (vehicle == null) {
+            return res.status(404).json({ message: 'Cannot find vehicle' });
+        }
+    } catch (err) {
+        return res.status(500).json({ message: err.message });
+    }
+
+    res.vehicle = vehicle;
+    next();
+}
 
 module.exports = router;

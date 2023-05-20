@@ -1,60 +1,82 @@
 const express = require('express');
-const { Garage, validate } = require('../models/garage');
-
 const router = express.Router();
+const Garage = require('../models/garage');
 
 // GET all garages
 router.get('/', async (req, res) => {
-    const garages = await Garage.find().sort('city').populate('vehicles', '-_id');
-    if (!garages) return res.status(404).send('No garages found.');
-
-    res.send(garages);
+    try {
+        const garages = await Garage.find();
+        res.json(garages);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
 });
 
-// GET a specific garage by ID
-router.get('/:id', async (req, res) => {
-    const garage = await Garage.findById(req.params.id).populate('vehicles', '-_id');
-    if (!garage) return res.status(404).send('Garage not found.');
-
-    res.send(garage);
+// GET a specific garage
+router.get('/:id', getGarage, (req, res) => {
+    res.json(res.garage);
 });
 
-// POST a new garage
+// CREATE a new garage
 router.post('/', async (req, res) => {
-    const { error } = validate(req.body);
-    if (error) return res.status(404).send(error.details[0].message);
-
-    let garage = new Garage({
+    const garage = new Garage({
         name: req.body.name,
-        city: req.body.city,
-        vehicles: req.body.vehicles
+        location: req.body.location,
+        capacity: req.body.capacity
     });
 
-    garage = await garage.save();
-    garage = await Garage.findById(garage._id).populate('vehicles', '-_id');
-
-    res.send(garage);
+    try {
+        const newGarage = await garage.save();
+        res.status(201).json(newGarage);
+    } catch (err) {
+        res.status(400).json({ message: err.message });
+    }
 });
 
-// PUT (update) an existing garage by ID
-router.put('/:id', async (req, res) => {
-    const garage = await Garage.findByIdAndUpdate(req.params.id, {
-        city: req.body.city,
-        vehicles: req.body.vehicles
-    }, { new: true });
+// UPDATE a garage
+router.patch('/:id', getGarage, async (req, res) => {
+    if (req.body.name != null) {
+        res.garage.name = req.body.name;
+    }
+    if (req.body.location != null) {
+        res.garage.location = req.body.location;
+    }
+    if (req.body.capacity != null) {
+        res.garage.capacity = req.body.capacity;
+    }
 
-    if (!garage) return res.status(404).send('Garage not found.');
-
-    res.send(garage);
+    try {
+        const updatedGarage = await res.garage.save();
+        res.json(updatedGarage);
+    } catch (err) {
+        res.status(400).json({ message: err.message });
+    }
 });
 
-// DELETE a garage by ID
-router.delete('/:id', async (req, res) => {
-    const garage = await Garage.findByIdAndRemove(req.params.id);
-
-    if (!garage) return res.status(404).send('Garage not found.');
-
-    res.send(garage);
+// DELETE a garage
+router.delete('/:id', getGarage, async (req, res) => {
+    try {
+        await res.garage.remove();
+        res.json({ message: 'Garage deleted' });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
 });
+
+// Middleware function to get a specific garage by ID
+async function getGarage(req, res, next) {
+    let garage;
+    try {
+        garage = await Garage.findById(req.params.id);
+        if (garage == null) {
+            return res.status(404).json({ message: 'Cannot find garage' });
+        }
+    } catch (err) {
+        return res.status(500).json({ message: err.message });
+    }
+
+    res.garage = garage;
+    next();
+}
 
 module.exports = router;

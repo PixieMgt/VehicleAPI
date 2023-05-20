@@ -34,5 +34,7 @@ function validateBrand(request) {
     return schema.validate(request);
 }
 
-exports.Brand = Brand;
-exports.validate = validateBrand;
+module.exports = {
+    Brand: Brand,
+    validate: validateBrand
+};

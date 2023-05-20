@@ -31,5 +31,7 @@ function validateGarage(garage) {
     return schema.validate(garage);
 }
 
-exports.Garage = Garage;
-exports.validate = validateGarage;
+module.exports = {
+    Garage: Garage,
+    validate: validateGarage
+};

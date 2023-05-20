@@ -40,5 +40,7 @@ function validateVehicle(request) {
     return schema.validate(request);
 }
 
-exports.Vehicle = Vehicle;
-exports.validate = validateVehicle;
+module.exports = {
+    Vehicle: Vehicle,
+    validate: validateVehicle
+};
