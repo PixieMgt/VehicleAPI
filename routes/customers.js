@@ -1,6 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const Customer = require('../models/customer');
+const _ = require('lodash');
+const bcrypt = require('bcrypt');
+const config = require('config');
+const jwt = require('jsonwebtoken');
 
 // GET all customers
 router.get('/', async (req, res) => {
@@ -22,14 +26,20 @@ router.post('/', async (req, res) => {
     const customer = new Customer({
         name: req.body.name,
         email: req.body.email,
+        password: req.body.password,
         phone: req.body.phone,
         address: req.body.address,
         vehicles: req.body.vehicles
     });
 
+    const salt = await bcrypt.genSalt(10);
+    customer.password = await bcrypt.hash(customer.password, salt);
+
+    const token = customer.generateAuthToken();
+
     try {
         const newCustomer = await customer.save();
-        res.status(201).json(newCustomer);
+        res.header('x-auth-token', token).status(201).json(_.pick(newCustomer, ['_id', 'name', 'email', 'phone', 'address', 'vehicles']));
     } catch (err) {
         res.status(400).json({ message: err.message });
     }
@@ -43,6 +53,9 @@ router.patch('/:id', getCustomer, async (req, res) => {
     if (req.body.email != null) {
         res.customer.email = req.body.email;
     }
+    if (req.body.password != null) {
+        res.customer.password = req.body.password;
+    }
     if (req.body.phone != null) {
         res.customer.phone = req.body.phone;
     }
@@ -55,7 +68,7 @@ router.patch('/:id', getCustomer, async (req, res) => {
 
     try {
         const updatedCustomer = await res.customer.save();
-        res.json(updatedCustomer);
+        res.json(_pick(updatedCustomer, ['_id', 'name', 'email', 'phone', 'address', 'vehicles']));
     } catch (err) {
         res.status(400).json({ message: err.message });
     }

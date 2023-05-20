@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const Brand = require('../models/brand');
-const Vehicle = require('../models/vehicle');
 
 // GET all brands
 router.get('/', async (req, res) => {
@@ -59,16 +58,6 @@ router.delete('/:id', getBrand, async (req, res) => {
     try {
         await res.brand.deleteOne();
         res.json({ message: 'Brand deleted' });
-    } catch (err) {
-        res.status(500).json({ message: err.message });
-    }
-});
-
-// GET all vehicles for a specific brand by id
-router.get('/:id/vehicles', getBrand, async (req, res) => {
-    try {
-        const vehicles = await Vehicle.find({ brand: res.brand.id });
-        res.json(vehicles);
     } catch (err) {
         res.status(500).json({ message: err.message });
     }

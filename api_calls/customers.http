@@ -15,6 +15,7 @@ Content-Type: application/json
 {
     "name": "John Doe",
     "email": "johndoe@example.comm",
+    "password": "123456",
     "phone": "555-555-5555",
     "address": "123 Main St, Los Angeles, CA 12345"
 }
@@ -27,6 +28,7 @@ Content-Type: application/json
 {
     "name": "John Doe",
     "email": "johndoe@example.com",
+    "password": "123456",
     "phone": "555-555-5555",
     "address": "123 Main St, Los Angeles, CA 12345"
 }

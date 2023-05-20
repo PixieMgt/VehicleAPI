@@ -18,10 +18,17 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use('/api/auth', require('./routes/authenticate'));
 app.use('/api/vehicles', require('./routes/vehicles'));
 app.use('/api/brands', require('./routes/brands'));
 app.use('/api/garages', require('./routes/garages'));
 app.use('/api/customers', require('./routes/customers'));
+
+const config = require('config');
+// if (!config.get('jwtPrivateKey')) {
+//     console.error('FATAL ERROR: environment variable VehicleAPI_jwtPrivateKey is not defined.');
+//     process.exit(1);
+// };
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Listening on port ${port}...`));
