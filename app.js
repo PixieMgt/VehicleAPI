@@ -24,10 +24,10 @@ app.use('/api/brands', require('./routes/brands'));
 app.use('/api/garages', require('./routes/garages'));
 app.use('/api/customers', require('./routes/customers'));
 
-if (!config.get('jwtPrivateKey')) {
-    console.error('FATAL ERROR: environment variable VehicleAPI_jwtPrivateKey is not defined.');
-    process.exit(1);
-};
+// if (!config.get('jwtPrivateKey')) {
+//     console.error('FATAL ERROR: environment variable VehicleAPI_jwtPrivateKey is not defined.');
+//     process.exit(1);
+// };
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Listening on port ${port}...`));
