@@ -1,4 +1,14 @@
 {
+  "name": "VehicleAPI",
+  "version": "1.0.0",
+  "description": "An API for vehicles, brands, garages and customers",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "author": "Pixie Moortgat",
+  "license": "MIT",
   "dependencies": {
     "bcrypt": "^5.1.0",
     "body-parser": "^1.20.2",
@@ -11,5 +21,8 @@
     "mongodb": "^5.4.0",
     "mongoose": "^7.1.0",
     "nodemon": "^2.0.22"
+  },
+  "engines": {
+    "node": "18.x"
   }
 }
