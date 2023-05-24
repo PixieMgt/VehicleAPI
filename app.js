@@ -3,11 +3,11 @@ Joi.objectId = require('joi-objectid')(Joi);
 const mongoose = require('mongoose');
 const express = require('express');
 const bodyParser = require('body-parser');
-const CONFIG = require('./config.json');
+const config = require('config');
 
 const app = express();
-const dbUser = CONFIG.dbUser;
-const dbPassword = CONFIG.dbPassword;
+const dbUser = config.get('dbUser');
+const dbPassword = config.get('dbPassword');
 const uri = `mongodb+srv://${dbUser}:${dbPassword}@vehicleapi.fc7h9zw.mongodb.net/?retryWrites=true&w=majority`
 
 mongoose.connect(uri)
@@ -24,11 +24,10 @@ app.use('/api/brands', require('./routes/brands'));
 app.use('/api/garages', require('./routes/garages'));
 app.use('/api/customers', require('./routes/customers'));
 
-const config = require('config');
-// if (!config.get('jwtPrivateKey')) {
-//     console.error('FATAL ERROR: environment variable VehicleAPI_jwtPrivateKey is not defined.');
-//     process.exit(1);
-// };
+if (!config.get('jwtPrivateKey')) {
+    console.error('FATAL ERROR: environment variable jwtPrivateKey is not defined.');
+    process.exit(1);
+};
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Listening on port ${port}...`));
