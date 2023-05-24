@@ -25,7 +25,7 @@ app.use('/api/garages', require('./routes/garages'));
 app.use('/api/customers', require('./routes/customers'));
 
 if (!config.get('jwtPrivateKey')) {
-    console.error('FATAL ERROR: environment variable jwtPrivateKey is not defined.');
+    console.error('FATAL ERROR: environment variable VehicleAPI_jwtPrivateKey is not defined.');
     process.exit(1);
 };
 
