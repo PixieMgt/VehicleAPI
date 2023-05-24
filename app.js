@@ -6,8 +6,8 @@ const bodyParser = require('body-parser');
 const config = require('config');
 
 const app = express();
-const dbUser = config.get('dbUser');
-const dbPassword = config.get('dbPassword');
+const dbUser = process.env.VehicleAPI_dbUser;
+const dbPassword = process.env.VehicleAPI_dbPassword;
 const uri = `mongodb+srv://${dbUser}:${dbPassword}@vehicleapi.fc7h9zw.mongodb.net/?retryWrites=true&w=majority`
 
 mongoose.connect(uri)
