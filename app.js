@@ -8,10 +8,11 @@ const app = express();
 const dbUser = process.env.VehicleAPI_dbUser;
 const dbPassword = process.env.VehicleAPI_dbPassword;
 const uri = `mongodb+srv://${dbUser}:${dbPassword}@vehicleapi.fc7h9zw.mongodb.net/?retryWrites=true&w=majority`
+console.log(uri);
 
 mongoose.connect(uri)
     .then(() => console.log('Connected to MongoDB...'))
-    .catch(err => console.error('Could not connect to MongoDB...'));
+    .catch(err => console.error('Could not connect to MongoDB...:', uri));
 
 app.use(express.json());
 app.use(bodyParser.json());
