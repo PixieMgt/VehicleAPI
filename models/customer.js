@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const config = require('config');
 const jwt = require('jsonwebtoken');
 
 const customerSchema = new mongoose.Schema({
@@ -38,7 +37,7 @@ const customerSchema = new mongoose.Schema({
 })
 
 customerSchema.methods.generateAuthToken = function () {
-    return jwt.sign({ _id: this._id }, config.get('jwtPrivateKey'));
+    return jwt.sign({ _id: this._id }, process.env.VehicleAPI_jwtPrivateKey);
 }
 
 const Customer = mongoose.model('Customer', customerSchema);
