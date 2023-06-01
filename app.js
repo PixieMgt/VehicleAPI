@@ -14,7 +14,9 @@ mongoose.connect(uri)
     .catch(err => console.error('Could not connect to MongoDB...'));
 
 app.use(express.json());
+// Parses incoming request bodies before handlers (available under req.body)
 app.use(bodyParser.json());
+// Parses incoming URL-encoded request bodies before handlers (available under req.body), extended: true means req.body can be any type (not just strings or arrays)
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/api/auth', require('./routes/authenticate'));

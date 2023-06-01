@@ -12,6 +12,7 @@ router.post('/', async (req, res) => {
     let customer = await Customer.findOne({ email: req.body.email });
     if (!customer) return res.status(400).send('Invalid email or password.');
 
+    // Compare the password entered by the user with the encrypted password stored in the database
     const validPassword = await bcrypt.compare(req.body.password, customer.password);
     if (!validPassword) return res.status(400).send('Invalid email or password.');
 
